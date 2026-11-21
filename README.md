@@ -1,80 +1,78 @@
-# \# ERP FSI — Control de Asistencia
+\# FSI — Control de Asistencia
 
-# 
 
-# Módulo de Control de Asistencia del ERP académico (Fundamentos de Sistemas de
 
-# Información, UNSA). Registra marcaciones, consolida la asistencia diaria y
+Módulo de Control de Asistencia del ERP académico (Fundamentos de Sistemas de
 
-# entrega datos a Planillas y Contabilidad.
+Información, UNSA). Registra marcaciones, consolida la asistencia diaria y
 
-# 
+entrega datos a Planillas y Contabilidad.
 
-# \## Tecnologías
 
-# \- Backend: Python + Django REST Framework
 
-# \- Frontend: React + Vite + TypeScript
+\## Tecnologías
 
-# \- Base de datos: PostgreSQL
+\- Backend: Python + Django REST Framework
 
-# \- Estilos: Tailwind CSS
+\- Frontend: React + Vite + TypeScript
 
-# 
+\- Base de datos: PostgreSQL
 
-# \## Estructura
+\- Estilos: Tailwind CSS
 
-# \- `backend/`: API (Django REST Framework)
 
-# \- `frontend/`: aplicación web (React + Vite)
 
-# \- `database/`: scripts SQL (estructura y datos de prueba)
+\## Estructura
 
-# \- `docs/`: informe, diccionario de datos y arquitectura
+\- `backend/`: API (Django REST Framework)
 
-# \- `.github/`: plantillas de Pull Request
+\- `frontend/`: aplicación web (React + Vite)
 
-# 
+\- `database/`: scripts SQL (estructura y datos de prueba)
 
-# \## Cómo levantar el proyecto
+\- `docs/`: informe, diccionario de datos y arquitectura
 
-# 1\. Copia `.env.example` a `.env` y completa los valores.
+\- `.github/`: plantillas de Pull Request
 
-# 2\. Crea la base de datos PostgreSQL con los datos del `.env`.
 
-# 3\. Backend:
 
-# &#x20;  ```bash
+\## Cómo levantar el proyecto
 
-# &#x20;  cd backend
+1\. Copia `.env.example` a `.env` y completa los valores.
 
-# &#x20;  python -m venv venv \&\& source venv/bin/activate   # Windows: venv\\Scripts\\activate
+2\. Crea la base de datos PostgreSQL con los datos del `.env`.
 
-# &#x20;  pip install -r requirements.txt
+3\. Backend:
 
-# &#x20;  python manage.py migrate
+&#x20;  ```bash
 
-# &#x20;  python manage.py runserver    # http://localhost:8000
+&#x20;  cd backend
 
-# &#x20;  ```
+&#x20;  python -m venv venv \&\& source venv/bin/activate   # Windows: venv\\Scripts\\activate
 
-# 4\. Frontend:
+&#x20;  pip install -r requirements.txt
 
-# &#x20;  ```bash
+&#x20;  python manage.py migrate
 
-# &#x20;  cd frontend
+&#x20;  python manage.py runserver    # http://localhost:8000
 
-# &#x20;  npm install
+&#x20;  ```
 
-# &#x20;  npm run dev    # http://localhost:5173
+4\. Frontend:
 
-# &#x20;  ```
+&#x20;  ```bash
 
-# 
+&#x20;  cd frontend
 
-# > Los pasos 3 y 4 funcionarán cuando se suba el código del backend y del frontend.
+&#x20;  npm install
 
-# 
+&#x20;  npm run dev    # http://localhost:5173
 
-# 
+&#x20;  ```
+
+
+
+> Los pasos 3 y 4 funcionarán cuando se suba el código del backend y del frontend.
+
+
 
