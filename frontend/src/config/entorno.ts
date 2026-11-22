@@ -25,6 +25,8 @@ export const entorno = {
   codigoDispositivoWeb: (env.VITE_CODIGO_DISPOSITIVO_WEB ?? '').trim(),
   /** Ruta del listado de trabajadores; vacía mientras el backend no la publique. */
   rutaTrabajadores: (env.VITE_API_RUTA_TRABAJADORES ?? '').trim(),
+  /** Empresa temporal del entorno de pruebas hasta que la sesión real incluya este dato. */
+  empresaPruebaId: leerEntero(env.VITE_PRUEBA_EMPRESA_ID),
   /** Perfil temporal para probar en modo api mientras no exista autenticación. */
   perfilPrueba: {
     trabajadorId: leerEntero(env.VITE_PRUEBA_TRABAJADOR_ID),

@@ -1,6 +1,6 @@
 # Contratos pendientes con el backend
 
-El frontend se construyó a partir de las historias de usuario **HU-01** (turnos), **HU-02** (marcación) y **HU-03** (consulta) y de las issues de backend relacionadas. En esos textos los endpoints figuran como *propuestos*. El repositorio ya incluye una estructura inicial de Django, pero aún no publica estos endpoints ni un contrato definitivo; por eso **la integración real no se ha podido comprobar**.
+El frontend se construyó a partir de las historias de usuario **HU-01** (turnos), **HU-02** (marcación) y **HU-03** (consulta). La rama remota `feat/hu01-turnos-backend` ya publica un contrato para Turnos, pero todavía no está integrada en `main`. Las APIs de marcaciones, trabajadores y sesión siguen pendientes. **No se ha comprobado una sesión completa del frontend contra el backend real.**
 
 Este documento separa tres cosas:
 
@@ -35,14 +35,15 @@ Todas las suposiciones están aisladas: cuando backend confirme o cambie algo, s
 
 ---
 
-## 2. Suposiciones del frontend (confirmar con backend)
+## 2. Contratos conocidos y suposiciones pendientes
 
 ### 2.1 Nombres de campos de Turno
-Las historias no fijan los nombres exactos. Se asumió el estilo habitual de Django REST Framework (snake_case):
+La rama `feat/hu01-turnos-backend` define el siguiente contrato para Turnos:
 
 ```json
 {
   "id": 1,
+  "empresa_id": 1,
   "nombre": "Administrativo diurno",
   "hora_entrada": "08:00:00",
   "hora_salida": "17:00:00",
@@ -50,23 +51,21 @@ Las historias no fijan los nombres exactos. Se asumió el estilo habitual de Dja
   "tolerancia_min": 10,
   "refrigerio_min": 60,
   "estado": "A",
-  "dias": [{ "dia": 1, "laborable": "S" }],
+  "dias": [{ "dia_semana": 1, "laborable": "S" }],
   "creado_en": "2026-03-02T14:20:00Z",
   "actualizado_en": null
 }
 ```
 
-- `tolerancia_min` y `refrigerio_min` son **nombres inventados**; en las historias solo aparecen como «tolerancia» y «refrigerio».
-- Se asume `1 = lunes … 7 = domingo`.
-- Se asume `S`/`N` en texto (no booleanos). El mapeador también acepta `true`/`false`.
-- Se asume que el nombre tiene máximo 100 caracteres (límite **solo de la interfaz**).
+- `tolerancia_min`, `refrigerio_min`, `dia_semana`, `S`/`N` y el máximo de 100 caracteres del nombre coinciden con el serializer de esa rama.
+- El backend exige `empresa_id` al crear o editar. Hasta que la sesión aporte la empresa, el modo API requiere `VITE_PRUEBA_EMPRESA_ID` para pruebas locales. No se usa un identificador fijo en el código.
+- El backend aún no aplica autorización por empresa a las operaciones de detalle; se requiere protección del lado del servidor antes de un uso real con múltiples empresas.
 
 **Dónde se corrige:** `src/types/turnos.ts` (interfaces `TurnoDto`, `TurnoEscrituraDto`) y `src/services/api/mapeadores.ts`.
 
 ### 2.2 Listado de turnos
-- Se asume que `GET /turnos/?estado=A` y `?estado=I` funcionan, y que **sin filtro** no se devuelven los inactivos (la HU-01 dice que dejan de listarse por defecto).
-- Como no hay un valor documentado para «todos», la opción **Todos** del filtro hace **dos peticiones** (A e I) y las une.
-- Se asume que el listado puede o no incluir los días; si no los incluye, la tabla muestra «No incluido en el listado». **Conviene que el listado los incluya.**
+- La rama backend documenta `GET /turnos/?estado=A|I|todos&empresa_id=...`; sin `estado` devuelve los activos. La interfaz usa una sola petición para cada filtro.
+- El serializer devuelve los días del turno. Si una versión futura omite `dias` en el listado, la tabla muestra «No incluido en el listado».
 
 **Dónde se corrige:** `src/services/api/turnosApi.ts`.
 
@@ -124,6 +123,7 @@ Los mensajes de 401, 403, 404, 405 y 5xx se muestran con textos propios en espa�
 | # | Qué falta | Por qué importa | Solución temporal en el frontend |
 |---|---|---|---|
 | 1 | **Autenticación y sesión**: cómo se identifica quién usa la pantalla | Marcar necesita el id del trabajador; Consulta necesita saber si es RR. HH. | Variables `VITE_PRUEBA_TRABAJADOR_ID`, `VITE_PRUEBA_TRABAJADOR_NOMBRE`, `VITE_PRUEBA_ES_RRHH` (solo para pruebas locales). Sin ellas, la pantalla muestra «Configuración pendiente». |
+| 1a | **Empresa de la sesión** | Turnos requiere `empresa_id`; no debe elegirse un valor fijo para todos | `VITE_PRUEBA_EMPRESA_ID` solo para pruebas locales. Sin ella, Turnos muestra «Configuración pendiente». |
 | 2 | **Roles**: quién puede ver/usar Turnos | El texto dice que «un responsable administra los turnos», pero no hay regla de acceso | La pantalla Turnos se muestra a todos. No se simuló ninguna restricción. |
 | 3 | **Código del dispositivo web** | Es dato obligatorio al marcar | `VITE_CODIGO_DISPOSITIVO_WEB`. Si está vacío, marcar falla con un mensaje claro y **no llama a la red**. |
 | 4 | **Endpoint del catálogo de trabajadores** | El selector de RR. HH. necesita la lista | `VITE_API_RUTA_TRABAJADORES`. Si está vacío, aparece un campo «ID del trabajador (opcional)». Forma asumida: `{ "id": 1, "nombre_completo": "…" }`. |
@@ -155,7 +155,7 @@ Ninguna pantalla cambia: solo la capa `src/services/`.
 
 ## 6. Qué NO se ha comprobado
 
-- Ninguna petición real contra un backend (no existe todavía).
-- Los nombres de campo, la forma de la paginación y los códigos de error de la API real.
+- Ninguna petición real del frontend contra el backend; la API de Turnos está en una rama aún no integrada en `main`.
+- El contrato de Turnos se contrastó con el código y ejemplos de esa rama; los de marcaciones y trabajadores siguen sin verificar.
 - El comportamiento con autenticación real.
 - Las pruebas automáticas validan el cliente HTTP con `fetch` simulado y los servicios de demostración; **no** prueban el backend.

@@ -34,8 +34,8 @@ export function recortarHora(valor: string): string {
 function aDias(dias: TurnoDiaDto[] | undefined): DiaTurno[] | null {
   if (!dias) return null
   return dias
-    .filter((d) => d.dia >= 1 && d.dia <= 7)
-    .map((d): DiaTurno => ({ dia: d.dia as NumeroDia, laborable: aBooleano(d.laborable) }))
+    .filter((d) => d.dia_semana >= 1 && d.dia_semana <= 7)
+    .map((d): DiaTurno => ({ dia: d.dia_semana as NumeroDia, laborable: aBooleano(d.laborable) }))
     .sort((a, b) => a.dia - b.dia)
 }
 
@@ -56,8 +56,9 @@ export function aTurno(dto: TurnoDto): Turno {
 }
 
 /** Se envían siempre los 7 días, con 'S' o 'N' (HU-01, CA-05). */
-export function aTurnoEscrituraDto(datos: DatosTurno): TurnoEscrituraDto {
+export function aTurnoEscrituraDto(datos: DatosTurno, empresaId: number): TurnoEscrituraDto {
   return {
+    empresa_id: empresaId,
     nombre: datos.nombre,
     hora_entrada: datos.horaEntrada,
     hora_salida: datos.horaSalida,
@@ -65,7 +66,7 @@ export function aTurnoEscrituraDto(datos: DatosTurno): TurnoEscrituraDto {
     tolerancia_min: datos.toleranciaMin,
     refrigerio_min: datos.refrigerioMin,
     dias: DIAS_SEMANA.map(
-      ({ numero }): TurnoDiaDto => ({ dia: numero, laborable: aSN(datos.diasLaborables.includes(numero)) }),
+      ({ numero }): TurnoDiaDto => ({ dia_semana: numero, laborable: aSN(datos.diasLaborables.includes(numero)) }),
     ),
   }
 }

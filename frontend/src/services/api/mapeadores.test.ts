@@ -13,8 +13,8 @@ const turnoDto: TurnoDto = {
   refrigerio_min: 60,
   estado: 'A',
   dias: [
-    { dia: 2, laborable: 'N' },
-    { dia: 1, laborable: 'S' },
+    { dia_semana: 2, laborable: 'N' },
+    { dia_semana: 1, laborable: 'S' },
   ],
 }
 
@@ -49,10 +49,11 @@ describe('turnos', () => {
       toleranciaMin: 10,
       refrigerioMin: 60,
       diasLaborables: [1, 2, 3, 4, 5],
-    })
+    }, 1)
+    expect(cuerpo.empresa_id).toBe(1)
     expect(cuerpo.cruza_medianoche).toBe('N')
     expect(cuerpo.dias).toHaveLength(7)
-    expect(cuerpo.dias.filter((d) => d.laborable === 'S').map((d) => d.dia)).toEqual([1, 2, 3, 4, 5])
+    expect(cuerpo.dias.filter((d) => d.laborable === 'S').map((d) => d.dia_semana)).toEqual([1, 2, 3, 4, 5])
   })
 
   it('recortarHora quita los segundos', () => {

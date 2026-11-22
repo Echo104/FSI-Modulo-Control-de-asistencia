@@ -2,7 +2,7 @@
 
 Interfaz web del módulo de control de asistencia de trabajadores (proyecto de Sistemas de Información). Cubre tres pantallas: **Turnos**, **Marcar** y **Consulta**.
 
-> **Estado de la integración:** el repositorio ya contiene la estructura inicial de Django, pero aún no publica los endpoints de turnos y marcaciones. La aplicación arranca por defecto en **modo demostración** (datos simulados, con un aviso permanente). La conexión con la API real está preparada pero **no se ha podido comprobar**. Los contratos que faltan están en [`docs/CONTRATOS_PENDIENTES.md`](docs/CONTRATOS_PENDIENTES.md).
+> **Estado de la integración:** `main` contiene la estructura inicial de Django; una rama del equipo ya define la API de Turnos, pero aún no está integrada. Marcaciones y sesión siguen pendientes. La aplicación arranca por defecto en **modo demostración** (datos simulados, con un aviso permanente). La conexión real aún no se ha comprobado. Consulta [`docs/CONTRATOS_PENDIENTES.md`](docs/CONTRATOS_PENDIENTES.md).
 
 ## Requisitos
 

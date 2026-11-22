@@ -4,7 +4,7 @@ import type { Estado } from './comun'
 /* Modelo que usa la interfaz (camelCase, booleanos reales)            */
 /* ------------------------------------------------------------------ */
 
-/** Día de la semana según la HU-01: 1 a 7. Se asume 1 = lunes … 7 = domingo (por confirmar con backend). */
+/** Día de la semana según HU-01 y la API de Turnos: 1 = lunes … 7 = domingo. */
 export type NumeroDia = 1 | 2 | 3 | 4 | 5 | 6 | 7
 
 export interface DiaTurno {
@@ -60,12 +60,12 @@ export type ErroresFormularioTurno = Partial<Record<CampoFormularioTurno, string
 export type FiltroEstadoTurno = Estado | 'todos'
 
 /* ------------------------------------------------------------------ */
-/* Contrato con la API (SUPUESTO: nombres propuestos, aún no definitivos) */
+/* Contrato de la rama feat/hu01-turnos-backend (aún pendiente de integrar en main). */
 /* Si backend cambia un nombre, solo se corrige en services/api/mapeadores.ts */
 /* ------------------------------------------------------------------ */
 
 export interface TurnoDiaDto {
-  dia: number
+  dia_semana: number
   laborable: 'S' | 'N'
 }
 
@@ -86,6 +86,7 @@ export interface TurnoDto {
 
 /** Cuerpo de POST /turnos/ y PUT /turnos/{id}/. */
 export interface TurnoEscrituraDto {
+  empresa_id: number
   nombre: string
   hora_entrada: string
   hora_salida: string
