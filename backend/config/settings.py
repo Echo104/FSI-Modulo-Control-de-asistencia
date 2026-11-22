@@ -87,6 +87,11 @@ SPECTACULAR_SETTINGS = {
     "TITLE": "ERP FSI - Control de Asistencia",
     "DESCRIPTION": "API del módulo Control de Asistencia",
     "VERSION": "0.1.0",
+    # S/N se usa en varios campos (cruza_medianoche, laborable): un solo enum en el esquema.
+    "ENUM_NAME_OVERRIDES": {
+        "SiNoEnum": "asistencia.models.SiNo.choices",
+        "EstadoEnum": "asistencia.models.Estado.choices",
+    },
 }
 
 CORS_ALLOWED_ORIGINS = os.getenv(
