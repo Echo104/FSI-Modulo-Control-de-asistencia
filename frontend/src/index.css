@@ -1,1 +1,100 @@
 @import "tailwindcss";
+
+/*
+  Identidad visual del módulo.
+  - Petróleo: color de marca (barra lateral, botones principales, enlaces activos).
+  - Niebla: fondo general, gris azulado frío para que las superficies blancas se lean con claridad.
+  - Ámbar: señal puntual (modo demostración, marca activa). No se usa como color de acción.
+  - Verde y rojo: solo para estados (activo, error, peligro).
+*/
+@theme {
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-niebla: #eff2f4;
+  --color-borde: #d8dfe4;
+  --color-borde-fuerte: #bfc9d0;
+  --color-tinta: #16212a;
+  --color-tinta-suave: #4f5d69;
+  --color-tinta-tenue: #77838e;
+
+  --color-petroleo-50: #ebf4f5;
+  --color-petroleo-100: #d4e7e9;
+  --color-petroleo-200: #aacfd3;
+  --color-petroleo-300: #7bb1b8;
+  --color-petroleo-400: #4a8e98;
+  --color-petroleo-500: #2f7480;
+  --color-petroleo-600: #215e69;
+  --color-petroleo-700: #184b55;
+  --color-petroleo-800: #123b43;
+  --color-petroleo-900: #0c2a30;
+  --color-petroleo-950: #081d21;
+
+  --color-ambar-50: #fcf5e4;
+  --color-ambar-100: #f8e8bf;
+  --color-ambar-200: #f1d38a;
+  --color-ambar-500: #d99a1e;
+  --color-ambar-700: #8f5d0d;
+  --color-ambar-800: #6e4710;
+
+  --color-verde-50: #e8f4ec;
+  --color-verde-200: #bfe0cb;
+  --color-verde-700: #1f6b43;
+
+  --color-rojo-50: #fbece8;
+  --color-rojo-200: #f0c4ba;
+  --color-rojo-600: #b8402e;
+  --color-rojo-700: #9a3223;
+}
+
+@layer base {
+  html {
+    scrollbar-gutter: stable;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-niebla);
+    color: var(--color-tinta);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Foco visible y consistente para quien navega con teclado. */
+  :focus-visible {
+    outline: 2px solid var(--color-petroleo-500);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  main:focus {
+    outline: none;
+  }
+
+  button:not(:disabled),
+  summary,
+  select {
+    cursor: pointer;
+  }
+}
+
+/* Los paneles y diálogos aparecen como respuesta a una acción de la persona. */
+@keyframes entra-lateral {
+  from { transform: translateX(28px); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+@keyframes entra-centro {
+  from { transform: translateY(8px) scale(0.985); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+.modal-lateral[open] { animation: entra-lateral 0.22s ease-out; }
+.modal-centro[open]  { animation: entra-centro 0.18s ease-out; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
