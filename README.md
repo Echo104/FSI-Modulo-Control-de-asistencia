@@ -39,6 +39,7 @@ Módulo de Control de Asistencia del ERP académico (Fundamentos de Sistemas de 
    npm run dev    # http://localhost:5173
    ```
 
+> El frontend arranca en modo demostración. La estructura inicial del backend existe, pero la API de asistencia sigue pendiente. Consulta `frontend/README.md` y `frontend/docs/CONTRATOS_PENDIENTES.md` antes de activar el modo API.
 > Los pasos 3 y 4 funcionarán cuando se suba el código del backend y del frontend.
 
 ## API disponible
