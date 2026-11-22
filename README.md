@@ -40,3 +40,36 @@ Módulo de Control de Asistencia del ERP académico (Fundamentos de Sistemas de 
    ```
 
 > El frontend arranca en modo demostración. La estructura inicial del backend existe, pero la API de asistencia sigue pendiente. Consulta `frontend/README.md` y `frontend/docs/CONTRATOS_PENDIENTES.md` antes de activar el modo API.
+> Los pasos 3 y 4 funcionarán cuando se suba el código del backend y del frontend.
+
+## API disponible
+
+Documentación interactiva (Swagger): `http://localhost:8000/api/docs/`
+
+### HU-01 · Turnos (`/api/asistencia/turnos/`)
+
+| Método | Ruta | Descripción |
+|---|---|---|
+| GET | `/api/asistencia/turnos/` | Lista turnos activos. Filtros: `?estado=A\|I\|todos`, `?empresa_id=1` |
+| POST | `/api/asistencia/turnos/` | Crea un turno con sus días (`dias: [{dia_semana, laborable}]`) |
+| GET | `/api/asistencia/turnos/{id}/` | Detalle del turno con sus días |
+| PUT / PATCH | `/api/asistencia/turnos/{id}/` | Edita el turno (actualiza `actualizado_en/por`) |
+| DELETE | `/api/asistencia/turnos/{id}/` | Baja lógica: `estado = I`, no se borra de la BD |
+
+Mientras no exista autenticación, el usuario de auditoría (`creado_por`, `actualizado_por`)
+se toma de la cabecera `X-Usuario`; si no se envía se registra `sistema`.
+
+```bash
+curl -X POST http://localhost:8000/api/asistencia/turnos/ \
+  -H "Content-Type: application/json" -H "X-Usuario: rrhh.ana" \
+  -d '{"empresa_id":1,"nombre":"Mañana","hora_entrada":"08:00","hora_salida":"17:00",
+       "tolerancia_min":10,"refrigerio_min":60,"cruza_medianoche":"N",
+       "dias":[{"dia_semana":1,"laborable":"S"},{"dia_semana":6,"laborable":"N"}]}'
+```
+
+### Pruebas
+
+```bash
+cd backend
+pytest            # requiere PostgreSQL levantado (docker compose up -d)
+```
