@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useSyncExternalStore, type ReactNode } from 'react'
+import { useMemo, useSyncExternalStore, type ReactNode } from 'react'
 import { Alerta } from '@/components/ui/Alerta'
 import { Boton } from '@/components/ui/Boton'
 import { Cargando } from '@/components/ui/Spinner'
@@ -6,16 +6,7 @@ import { useDatos } from '@/hooks/useDatos'
 import { servicios } from '@/services'
 import { obtenerInstantaneaDemo, suscribirDemo } from '@/services/demo/estadoDemo'
 import type { PerfilSesion } from '@/types/comun'
-import type { ErrorUi } from '@/utils/errores'
-
-interface ValorSesion {
-  perfil: PerfilSesion | null
-  cargando: boolean
-  error: ErrorUi | null
-  recargar: () => void
-}
-
-const SesionContext = createContext<ValorSesion | null>(null)
+import { SesionContext, useSesion } from './sesion'
 
 /** Obtiene quién usa la pantalla (trabajador o RR. HH.). En modo api depende de un endpoint que aún no existe. */
 export function SesionProvider({ children }: { children: ReactNode }) {
@@ -29,12 +20,6 @@ export function SesionProvider({ children }: { children: ReactNode }) {
 
   const valor = useMemo(() => ({ perfil: datos, cargando, error, recargar }), [datos, cargando, error, recargar])
   return <SesionContext.Provider value={valor}>{children}</SesionContext.Provider>
-}
-
-export function useSesion(): ValorSesion {
-  const contexto = useContext(SesionContext)
-  if (!contexto) throw new Error('useSesion debe usarse dentro de <SesionProvider>')
-  return contexto
 }
 
 /** Muestra su contenido solo cuando ya se sabe quién es la persona usuaria; mientras tanto muestra carga o error. */

@@ -10,7 +10,7 @@ import {
   type PerfilDemoId,
 } from '@/services/demo/estadoDemo'
 import { Boton } from '@/components/ui/Boton'
-import { claseControl } from '@/components/ui/Campo'
+import { claseControl } from '@/components/ui/claseControl'
 import { IconoMatraz } from '@/components/ui/Iconos'
 
 /**

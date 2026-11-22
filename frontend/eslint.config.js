@@ -18,9 +18,5 @@ export default defineConfig([
     languageOptions: {
       globals: globals.browser,
     },
-    rules: {
-      // Los componentes comparten módulo con hooks y helpers de su propia interfaz.
-      'react-refresh/only-export-components': 'off',
-    },
   },
 ])

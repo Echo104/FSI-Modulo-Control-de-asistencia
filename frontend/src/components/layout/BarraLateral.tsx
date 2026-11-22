@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { useSesion } from '@/context/SesionContext'
+import { useSesion } from '@/context/sesion'
 import { entorno, esModoDemo } from '@/config/entorno'
 import { IconoMatraz } from '@/components/ui/Iconos'
 import { ENLACES } from './enlaces'

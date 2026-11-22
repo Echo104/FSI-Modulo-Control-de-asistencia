@@ -1,20 +1,6 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { IconoAlerta, IconoCerrar, IconoCheck, IconoInfo } from '@/components/ui/Iconos'
-
-type TonoAviso = 'exito' | 'error' | 'info'
-
-interface Aviso {
-  id: number
-  tono: TonoAviso
-  titulo: string
-  detalle?: string
-}
-
-interface ValorAvisos {
-  avisar: (aviso: Omit<Aviso, 'id'>) => void
-}
-
-const AvisosContext = createContext<ValorAvisos | null>(null)
+import { AvisosContext, type Aviso, type TonoAviso } from './avisos'
 
 const ESTILOS: Record<TonoAviso, { caja: string; icono: ReactNode }> = {
   exito: { caja: 'border-verde-200 text-verde-700', icono: <IconoCheck className="mt-0.5 shrink-0" /> },
@@ -85,8 +71,3 @@ export function AvisosProvider({ children }: { children: ReactNode }) {
   )
 }
 
-export function useAvisos(): ValorAvisos {
-  const contexto = useContext(AvisosContext)
-  if (!contexto) throw new Error('useAvisos debe usarse dentro de <AvisosProvider>')
-  return contexto
-}
