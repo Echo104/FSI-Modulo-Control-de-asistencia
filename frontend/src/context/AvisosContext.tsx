@@ -70,4 +70,3 @@ export function AvisosProvider({ children }: { children: ReactNode }) {
     </AvisosContext.Provider>
   )
 }
-
